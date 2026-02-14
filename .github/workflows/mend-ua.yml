@@ -27,10 +27,6 @@ jobs:
           Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
           Rscript -e 'install.packages("splitstackshape", repos="https://ftp.belnet.be/mirror/CRAN/")'
           Rscript -e 'install.packages("tools", repos="https://ftp.belnet.be/mirror/CRAN/")'
-          
-          Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
-          Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-
       - name: Mend CLI Scan
         env:
           MEND_EMAIL: ${{secrets.MEND_EMAIL}}
@@ -38,7 +34,7 @@ jobs:
           MEND_URL: https://saas.mend.io
           MEND_LOG_LEVEL: DEBUG
           MEND_R_CRANMIRRORURL: https://cran.rstudio.com
-          MEND_R_PACKAGEMANAGER: renv
+          MEND_R_PACKAGEMANAGER: 'none'
         run: |
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend

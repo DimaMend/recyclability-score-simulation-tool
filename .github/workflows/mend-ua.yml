@@ -3,7 +3,7 @@ name: Mend CLI UA
 on: workflow_dispatch
 
 jobs:
-  cli:
+  cli-ua:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,7 +38,7 @@ jobs:
           MEND_URL: https://saas.mend.io
           MEND_LOG_LEVEL: DEBUG
           MEND_R_CRANMIRRORURL: https://cran.rstudio.com
-          MEND_R_PACKAGEMANAGER: renv        
+          MEND_R_PACKAGEMANAGER: renv
         run: |
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend

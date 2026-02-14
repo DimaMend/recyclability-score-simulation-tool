@@ -21,6 +21,13 @@ jobs:
         
       - name: Install packages
         run: |
+          Rscript -e 'install.packages("officer", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("tidyverse", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("read_xlsx", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("splitstackshape", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("tools", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          
           Rscript -e 'install.packages("remotes", repos = "https://cloud.r-project.org")'
           Rscript -e 'remotes::install_deps(dependencies = TRUE)'
 

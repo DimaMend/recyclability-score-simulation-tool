@@ -20,9 +20,9 @@ jobs:
           sudo apt install libfontconfig1-dev libfreetype6-dev pkg-config
           sudo apt install libharfbuzz-dev libfribidi-dev
           
-#      - name: Install packages
-#        run: |
-#          Rscript -e 'install.packages("officer", repos="https://ftp.belnet.be/mirror/CRAN/")'
+      - name: Install packages
+        run: |
+          Rscript -e 'install.packages("officer", repos="https://ftp.belnet.be/mirror/CRAN/")'
 #          Rscript -e 'install.packages("tidyverse", repos="https://ftp.belnet.be/mirror/CRAN/")'
 #          Rscript -e 'install.packages("read_xlsx", repos="https://ftp.belnet.be/mirror/CRAN/")'
 #          Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
@@ -31,35 +31,29 @@ jobs:
 
       - name: Lists what is currently installed in your R library
         run: Rscript -e 'installed.packages()'
-        
-#      - name: Install Packrat
-#        run: Rscript -e 'install.packages("packrat", repos="https://cloud.r-project.org")'
-        
-#      - name: Restore dependencies
-#        run: |
-#          # Create the packrat/packrat.lock file that is missing from the project.
-#          Rscript -e 'packrat::init()'
-#          Rscript -e 'packrat::snapshot()'
-#          Rscript -e 'packrat::restore()'
-          
-      - name: Show repo root directory
-        run: |
-          echo "=== Repo root contents ==="
-          pwd
-          ls -la
 
       - name: Create only if the DESCRIPTION file doesn’t already exist in repo root
         run: |
           if [ ! -f ./DESCRIPTION ]; then
             touch ./DESCRIPTION
           fi
-          
+      
+      - name: Install Packrat
+        run: Rscript -e 'install.packages("packrat", repos="https://cloud.r-project.org")'
+        
+      - name: Restore dependencies
+        run: |
+          # Create the packrat/packrat.lock file that is missing from the project.
+          Rscript -e 'packrat::init()'
+#          Rscript -e 'packrat::snapshot()'
+#          Rscript -e 'packrat::restore()'
+
       - name: Show repo root directory
         run: |
           echo "=== Repo root contents ==="
           pwd
           ls -la
-          
+      
       - name: Mend CLI Scan
         env:
           MEND_EMAIL: ${{secrets.MEND_EMAIL}}
@@ -73,8 +67,8 @@ jobs:
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend
           echo run Mend scan
-          mend dep -u -s "*//Packrat//recyclability-score-simulation-tool"
-#          mend ua -project recyclability-score-simulation-tool -product Packrat -wss.url https://saas.mend.io/agent
+#          mend dep -u -s "*//Packrat//recyclability-score-simulation-tool"
+          mend ua -project recyclability-score-simulation-tool -product Packrat -wss.url https://saas.mend.io/agent
 
       - name: 'Upload .mend/logs folder'
         uses: actions/upload-artifact@v4

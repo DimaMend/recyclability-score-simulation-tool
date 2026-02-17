@@ -42,11 +42,23 @@ jobs:
 #          Rscript -e 'packrat::snapshot()'
 #          Rscript -e 'packrat::restore()'
           
+      - name: Show repo root directory
+        run: |
+          echo "=== Repo root contents ==="
+          pwd
+          ls -la
+
       - name: Create only if the DESCRIPTION file doesn’t already exist in repo root
         run: |
           if [ ! -f ./DESCRIPTION ]; then
             touch ./DESCRIPTION
           fi
+          
+      - name: Show repo root directory
+        run: |
+          echo "=== Repo root contents ==="
+          pwd
+          ls -la
           
       - name: Mend CLI Scan
         env:

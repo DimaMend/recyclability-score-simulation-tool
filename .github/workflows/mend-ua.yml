@@ -32,23 +32,30 @@ jobs:
       - name: Lists what is currently installed in your R library
         run: Rscript -e 'installed.packages()'
         
-      - name: Install Packrat
-        run: Rscript -e 'install.packages("packrat", repos="https://cloud.r-project.org")'
+#      - name: Install Packrat
+#        run: Rscript -e 'install.packages("packrat", repos="https://cloud.r-project.org")'
         
-      - name: Restore dependencies
+#      - name: Restore dependencies
+#        run: |
+#          # Create the packrat/packrat.lock file that is missing from the project.
+#          Rscript -e 'packrat::init()'
+#          Rscript -e 'packrat::snapshot()'
+#          Rscript -e 'packrat::restore()'
+          
+      - name: Create only if the DESCRIPTION file doesn’t already exist in repo root
         run: |
-          # Create the packrat/packrat.lock file that is missing from the project.
-          Rscript -e 'packrat::init()'
-          Rscript -e 'packrat::snapshot()'
-          Rscript -e 'packrat::restore()'
-        
+          if [ ! -f ./DESCRIPTION ]; then
+            touch ./DESCRIPTION
+          fi
+          
       - name: Mend CLI Scan
         env:
           MEND_EMAIL: ${{secrets.MEND_EMAIL}}
           MEND_USER_KEY: ${{secrets.MEND_USER_KEY}}
           MEND_URL: https://saas.mend.io
           MEND_LOG_LEVEL: DEBUG
-#          WS_R_CRANMIRRORURL: https://cran.rstudio.com
+          WS_R_CRANMIRRORURL: https://cran.rstudio.com
+          WS_R_RUNPRESTEP: true
 #          WS_R_PACKAGEMANAGER: 'none'
         run: |
           echo Downloading Mend CLI

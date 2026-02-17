@@ -53,7 +53,16 @@ jobs:
           echo "=== Repo root contents ==="
           pwd
           ls -la
-      
+          
+      - name: Print DESCRIPTION if present
+        run: |
+          if [ -f DESCRIPTION ]; then
+            echo "=== DESCRIPTION ==="
+            cat DESCRIPTION
+          else
+            echo "DESCRIPTION not found"
+          fi
+
       - name: Mend CLI Scan
         env:
           MEND_EMAIL: ${{secrets.MEND_EMAIL}}

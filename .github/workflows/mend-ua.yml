@@ -67,8 +67,8 @@ jobs:
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend
           echo run Mend scan
-#          mend dep -u -s "*//Packrat//recyclability-score-simulation-tool"
           mend ua -project recyclability-score-simulation-tool -product Packrat -wss.url https://saas.mend.io/agent
+#          mend dep -u -s "*//Packrat//recyclability-score-simulation-tool"
 
       - name: 'Upload .mend/logs folder'
         uses: actions/upload-artifact@v4

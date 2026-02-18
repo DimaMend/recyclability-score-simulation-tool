@@ -23,11 +23,11 @@ jobs:
       - name: Install packages
         run: |
           Rscript -e 'install.packages("officer", repos="https://ftp.belnet.be/mirror/CRAN/")'
-#          Rscript -e 'install.packages("tidyverse", repos="https://ftp.belnet.be/mirror/CRAN/")'
-#          Rscript -e 'install.packages("read_xlsx", repos="https://ftp.belnet.be/mirror/CRAN/")'
-#          Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
-#          Rscript -e 'install.packages("splitstackshape", repos="https://ftp.belnet.be/mirror/CRAN/")'
-#          Rscript -e 'install.packages("tools", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("tidyverse", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("read_xlsx", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("splitstackshape", repos="https://ftp.belnet.be/mirror/CRAN/")'
+          Rscript -e 'install.packages("tools", repos="https://ftp.belnet.be/mirror/CRAN/")'
 
 #      - name: Lists what is currently installed in your R library
 #        run: Rscript -e 'installed.packages()'
@@ -43,14 +43,9 @@ jobs:
         
       - name: Set up Packrat for the project
         run: |
-          # packrat::init() calls packrat::restore() internally and creates the packrat/packrat.lock file that is missing from the project.
-          # Rscript -e 'packrat::init()'
-
-      - name: Show repo root directory
-        run: |
-          echo "=== Repo root contents ==="
-          pwd
-          ls -la
+          # packrat::init() creates the packrat/packrat.lock file that is missing from the project.
+          # packrat::init() calls packrat::snapshot() internally.
+          Rscript -e 'packrat::init()'
           
       - name: Mend CLI Scan
         env:
@@ -58,8 +53,9 @@ jobs:
           MEND_USER_KEY: ${{secrets.MEND_USER_KEY}}
           MEND_URL: https://saas.mend.io
           MEND_LOG_LEVEL: DEBUG
-          WS_R_CRANMIRRORURL: https://cran.rstudio.com
-          WS_R_RUNPRESTEP: true
+          # We can use either packrat::init() or r.runPreStep.
+          # WS_R_CRANMIRRORURL: https://cran.rstudio.com
+          # WS_R_RUNPRESTEP: true
         run: |
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend
@@ -72,4 +68,3 @@ jobs:
           name: Mend logs
           path: /home/runner/.mend/logs/
           retention-days: 1
-        

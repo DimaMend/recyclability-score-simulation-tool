@@ -28,10 +28,7 @@ jobs:
           Rscript -e 'install.packages("writexl", repos="https://ftp.belnet.be/mirror/CRAN/")'
           Rscript -e 'install.packages("splitstackshape", repos="https://ftp.belnet.be/mirror/CRAN/")'
           Rscript -e 'install.packages("tools", repos="https://ftp.belnet.be/mirror/CRAN/")'
-
-#      - name: Lists what is currently installed in your R library
-#        run: Rscript -e 'installed.packages()'
-
+          
       - name: Create only if the DESCRIPTION file doesn’t already exist in repo root
         run: |
           if [ ! -f ./DESCRIPTION ]; then

@@ -43,7 +43,7 @@ jobs:
         
       - name: Set up Packrat for the project
         run: |
-          packrat::init() calls packrat::restore() internally and creates the packrat/packrat.lock file that is missing from the project.
+          # packrat::init() calls packrat::restore() internally and creates the packrat/packrat.lock file that is missing from the project.
           Rscript -e 'packrat::init()'
           
       - name: Mend CLI Scan

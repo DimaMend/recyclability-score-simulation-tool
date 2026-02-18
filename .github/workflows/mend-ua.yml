@@ -43,14 +43,8 @@ jobs:
         
       - name: Set up Packrat for the project
         run: |
-          # Create the packrat/packrat.lock file that is missing from the project.
-          # Rscript -e 'packrat::init()'
-
-      - name: Show repo root directory
-        run: |
-          echo "=== Repo root contents ==="
-          pwd
-          ls -la
+          packrat::init() calls packrat::restore() internally and creates the packrat/packrat.lock file that is missing from the project.
+          Rscript -e 'packrat::init()'
           
       - name: Mend CLI Scan
         env:
@@ -58,15 +52,13 @@ jobs:
           MEND_USER_KEY: ${{secrets.MEND_USER_KEY}}
           MEND_URL: https://saas.mend.io
           MEND_LOG_LEVEL: DEBUG
-          WS_R_CRANMIRRORURL: https://cran.rstudio.com
-          WS_R_RUNPRESTEP: true
-#          WS_R_PACKAGEMANAGER: 'none'
+          # WS_R_CRANMIRRORURL: https://cran.rstudio.com
+          # WS_R_RUNPRESTEP: true
         run: |
           echo Downloading Mend CLI
           curl https://downloads.mend.io/cli/linux_amd64/mend -o /usr/local/bin/mend && chmod +x /usr/local/bin/mend
           echo run Mend scan
-          mend ua -project recyclability-score-simulation-tool -product Packrat -wss.url https://saas.mend.io/agent
-#          mend dep -u -s "*//Packrat//recyclability-score-simulation-tool"
+          mend ua -project recyclability-score-simulation-tool-cli-ua -product Packrat -wss.url https://saas.mend.io/agent
 
       - name: 'Upload .mend/logs folder'
         uses: actions/upload-artifact@v4

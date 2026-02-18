@@ -43,7 +43,7 @@ jobs:
         
       - name: Set up Packrat for the project
         run: |
-          # packrat::init() calls creates the packrat/packrat.lock file that is missing from the project.
+          # packrat::init() creates the packrat/packrat.lock file that is missing from the project.
           # packrat::init() calls packrat::snapshot() internally.
           Rscript -e 'packrat::init()'
           
